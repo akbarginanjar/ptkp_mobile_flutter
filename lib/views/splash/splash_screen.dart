@@ -9,13 +9,13 @@ class SplashScreen extends StatelessWidget {
       body: GetBuilder<SplashController>(
         init: SplashController(),
         builder: (s) => Container(
-          color: white,
+          color: primary,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(height: 100),
+              SizedBox(height: 100),
               // SizedBox(
               //   height: 220,
               //   width: 220,
@@ -23,14 +23,14 @@ class SplashScreen extends StatelessWidget {
               //     'assets/images/rider.png',
               //   ),
               // ),
-              const SizedBox(height: 50),
-              const Text(
+              Text(
                 'PTKP',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 30,
+                  color: white,
                 ),
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: 40),
             ],
           ),
         ),

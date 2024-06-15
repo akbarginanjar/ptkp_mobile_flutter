@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:ptkp/global_resources.dart';
 
@@ -19,7 +18,6 @@ class AuthController extends GetConnect {
           body,
         );
         EasyLoading.show(status: 'loading...');
-        print(conn.statusCode);
         if (conn.statusCode == 200) {
           EasyLoading.showSuccess('Login Success');
           // print(conn.body['token']);

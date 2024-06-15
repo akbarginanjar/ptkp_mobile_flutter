@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:ptkp/global_resources.dart';
 
 class WoIssueService extends GetConnect {
@@ -11,8 +9,6 @@ class WoIssueService extends GetConnect {
       },
     );
 
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       return WoIssue.fromJson(response.body);
     } else if (response.statusCode == 400) {
@@ -31,8 +27,6 @@ class WoIssueService extends GetConnect {
         'Authorization': 'Bearer ${box.read('token')}',
       },
     );
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       List jsonResponse = response.body;
       return jsonResponse.map((data) => WoLocationList.fromJson(data)).toList();
@@ -49,8 +43,6 @@ class WoIssueService extends GetConnect {
         'Authorization': 'Bearer ${box.read('token')}',
       },
     );
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       final WoIssueController controller = Get.put(WoIssueController());
       String qtyIssueString = response.body['qty_issue'].toString();
@@ -229,5 +221,95 @@ class WoIssueService extends GetConnect {
       throw Exception('Failed to load item');
     }
     return WoScanQrCode();
+  }
+
+  Future<WoIssue> saveWoIssue({
+    required String issueDate,
+    required String woiOid,
+    required int enId,
+    required int branchId,
+    required int ccId,
+    required int woId,
+    required String woOid,
+    required String addBy,
+    required String addDate,
+    required List woIssueDetail,
+  }) async {
+    var body = {
+      "issue_date": issueDate,
+      "woi_oid": woiOid,
+      "en_id": enId,
+      "branch_id": branchId,
+      "cc_id": ccId,
+      "wo_id": woId,
+      "wo_oid": woOid,
+      "add_by": addBy,
+      "add_date": addDate,
+      "woIssueDetail": woIssueDetail,
+    };
+
+    final Response conn = await post(
+      'http://203.210.84.8:8082/api/WOIssue/Insert',
+      headers: {
+        'Authorization': 'Bearer ${box.read('token')}',
+      },
+      body,
+    );
+    EasyLoading.show(status: 'loading...');
+    if (conn.statusCode == 200) {
+      final WoIssueController controller = Get.put(WoIssueController());
+      EasyLoading.showSuccess('Success');
+      Get.dialog(
+        barrierDismissible: false,
+        barrierColor: Colors.black.withOpacity(0.2),
+        AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          title: const Text('Success'),
+          content: const Text('Berhasil disimpan'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                controller.clearMrCode();
+                controller.clearQrCode();
+                controller.clearAllBarang();
+                controller.clearWoIssue();
+                Get.back();
+              },
+              child: Text(
+                'OKE',
+                style: GoogleFonts.poppins(color: primary),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else if (conn.statusCode == null) {
+      // EasyLoading.showInfo('Perbaiki Koneksi Internet');
+    } else {
+      EasyLoading.showError('Failed');
+      Get.dialog(
+        barrierDismissible: false,
+        barrierColor: Colors.black.withOpacity(0.2),
+        AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          title: const Text('Failed'),
+          content: Text('${conn.body['message']}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text(
+                'OKE',
+                style: GoogleFonts.poppins(color: primary),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return WoIssue();
   }
 }

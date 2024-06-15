@@ -12,6 +12,7 @@ export 'package:ptkp/controllers/splash_controller.dart';
 //Helpers
 export 'package:ptkp/helpers/constant.dart';
 export 'package:ptkp/helpers/base.dart';
+export 'package:ptkp/helpers/formatter.dart';
 
 //Models
 export 'package:ptkp/models/user_model.dart';
@@ -25,3 +26,6 @@ export 'package:ptkp/views/home/screen.dart';
 export 'package:ptkp/views/login/screen.dart';
 export 'package:ptkp/views/splash/splash_screen.dart';
 export 'package:ptkp/views/wo_issue/screen.dart';
+
+//Components
+export 'package:ptkp/views/wo_issue/components/barang_component.dart';

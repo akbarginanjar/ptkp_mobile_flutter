@@ -16,6 +16,12 @@ class WoIssueController extends GetxController {
     loadData();
   }
 
+  void clearWoIssue() {
+    woIssue.value = WoIssue();
+
+    // woIssue.value.clear();
+  }
+
   void clearMrCode() {
     textMrCode.clear();
   }

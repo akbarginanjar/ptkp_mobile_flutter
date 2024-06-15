@@ -1,7 +1,4 @@
-import 'package:get/get.dart';
 import 'package:ptkp/global_resources.dart';
-import 'package:ptkp/helpers/formatter.dart';
-import 'package:ptkp/views/wo_issue/components/barang_component.dart';
 
 class WoIssueScreen extends StatelessWidget {
   WoIssueScreen({super.key});
@@ -266,7 +263,18 @@ class WoIssueScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  controller.loadData();
+                  WoIssueService().saveWoIssue(
+                    issueDate: DateTime.now().toString().split(" ")[0],
+                    woiOid: controller.woIssue.value.woiOid.toString(),
+                    enId: controller.woIssue.value.enId!,
+                    branchId: controller.woIssue.value.branchId!,
+                    ccId: controller.woIssue.value.ccId!,
+                    woId: controller.woIssue.value.woId!,
+                    woOid: controller.woIssue.value.woOid!,
+                    addBy: box.read('username'),
+                    addDate: DateTime.now().toIso8601String(),
+                    woIssueDetail: controller.items,
+                  );
                 },
                 child: Text(
                   'Save',
